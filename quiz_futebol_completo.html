@@ -1,0 +1,385 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+#R{font-family:'Nunito',sans-serif;background:#002776;border-radius:16px;overflow:hidden;min-height:540px;}
+.sc{display:none;flex-direction:column;align-items:center;padding:1.5rem;min-height:540px;}
+.sc.on{display:flex;}
+#s-entry{background:#002776;justify-content:center;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:54px;color:#FFDF00;letter-spacing:3px;line-height:1;text-align:center;margin-bottom:4px;}
+.logo-sub{color:rgba(255,255,255,0.7);font-size:14px;text-align:center;margin-bottom:1.5rem;}
+.name-box{background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:1.5rem;width:100%;max-width:380px;margin-bottom:1rem;}
+.name-box label{display:block;color:#FFDF00;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.name-box input{width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.25);border-radius:8px;color:#fff;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;padding:10px 14px;outline:none;}
+.name-box input::placeholder{color:rgba(255,255,255,0.35);}
+.name-box input:focus{border-color:#FFDF00;}
+.quiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:380px;margin-bottom:1rem;}
+.qcard{background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.15s;}
+.qcard:hover{background:rgba(255,255,255,0.15);}
+.qcard.sel{border-color:#FFDF00;background:rgba(255,223,0,0.12);}
+.qcard .qi{font-size:28px;display:block;margin-bottom:6px;}
+.qcard .qn{font-size:13px;font-weight:700;color:#fff;line-height:1.3;}
+.qcard.sel .qn{color:#FFDF00;}
+.btn-go{background:#FFDF00;color:#002776;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;border:none;padding:12px 0;border-radius:50px;cursor:pointer;width:100%;max-width:380px;margin-bottom:12px;}
+.btn-go:disabled{opacity:0.4;cursor:default;}
+.btn-rank{background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;padding:8px 28px;border-radius:50px;cursor:pointer;max-width:380px;width:100%;}
+.btn-rank:hover{border-color:#fff;color:#fff;}
+#s-q{background:#002776;justify-content:flex-start;padding-top:1.2rem;}
+.hud{display:flex;justify-content:space-between;width:100%;margin-bottom:10px;align-items:center;}
+.hud-l{display:flex;align-items:center;gap:8px;}
+.pill{background:rgba(255,223,0,0.15);border:1px solid rgba(255,223,0,0.4);color:#FFDF00;font-size:13px;font-weight:700;padding:4px 12px;border-radius:50px;}
+.lives-d{font-size:18px;letter-spacing:3px;}
+.prog{width:100%;height:5px;background:rgba(255,255,255,0.1);border-radius:10px;margin-bottom:12px;overflow:hidden;}
+.prog-f{height:100%;background:#FFDF00;border-radius:10px;transition:width 0.4s;}
+.qnum{font-size:12px;color:rgba(255,255,255,0.45);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;text-align:center;}
+.qtxt{font-size:19px;color:#fff;font-weight:700;line-height:1.4;margin-bottom:1.2rem;text-align:center;min-height:58px;}
+.opts{display:flex;flex-direction:column;gap:9px;width:100%;}
+.ob{background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.18);color:#fff;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;padding:13px 16px;border-radius:12px;cursor:pointer;text-align:left;transition:all 0.15s;}
+.ob:hover:not(:disabled){background:rgba(255,255,255,0.15);border-color:#FFDF00;}
+.ob.ok{background:#0a5c2e;border-color:#00e85a;}
+.ob.no{background:#5c0a0a;border-color:#e83030;}
+.ob:disabled{cursor:default;}
+.fb{margin-top:12px;font-size:14px;font-weight:700;min-height:20px;text-align:center;}
+.fb.ok{color:#00e85a;}.fb.no{color:#ff5555;}
+.btn-quit{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,80,80,0.35);color:rgba(255,100,100,0.7);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;padding:7px 20px;border-radius:50px;cursor:pointer;margin-top:14px;transition:all 0.15s;}
+.btn-quit:hover{background:rgba(255,50,50,0.12);border-color:#ff5555;color:#ff7777;}
+#s-mog{background:#1a0000;justify-content:center;}
+.mog-face{font-size:88px;text-align:center;margin-bottom:6px;}
+.mog-t{font-family:'Bebas Neue',sans-serif;font-size:50px;color:#ff2222;letter-spacing:3px;text-align:center;}
+.mog-s{color:rgba(255,255,255,0.65);font-size:15px;text-align:center;margin:6px 0 4px;}
+.mog-ans{color:#FFDF00;font-size:14px;font-weight:700;text-align:center;margin-bottom:18px;padding:0 1rem;}
+.btn-r{background:#ff2222;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:22px;border:none;padding:11px 36px;border-radius:50px;cursor:pointer;margin:4px 0;}
+.btn-m{background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;padding:8px 28px;border-radius:50px;cursor:pointer;font-family:'Nunito',sans-serif;}
+#s-win{background:#002776;justify-content:center;}
+.win-ico{font-size:72px;text-align:center;margin-bottom:8px;}
+.win-t{font-family:'Bebas Neue',sans-serif;font-size:46px;color:#FFDF00;letter-spacing:2px;text-align:center;}
+.win-s{color:rgba(255,255,255,0.8);font-size:16px;font-weight:700;text-align:center;margin:8px 0 20px;}
+.win-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:340px;margin-bottom:20px;}
+.wstat{background:rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center;}
+.wstat .wv{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#FFDF00;}
+.wstat .wl{font-size:12px;color:rgba(255,255,255,0.55);font-weight:700;text-transform:uppercase;}
+.btn-w{background:#FFDF00;color:#002776;font-family:'Bebas Neue',sans-serif;font-size:22px;border:none;padding:11px 36px;border-radius:50px;cursor:pointer;margin:4px 0;width:100%;max-width:340px;}
+.btn-wm{background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;padding:8px 0;border-radius:50px;cursor:pointer;font-family:'Nunito',sans-serif;width:100%;max-width:340px;}
+#s-rank{background:#002776;justify-content:flex-start;padding-top:1.5rem;}
+.rank-t{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#FFDF00;letter-spacing:2px;margin-bottom:4px;}
+.rank-sub{color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:1rem;}
+.rank-tabs{display:flex;gap:6px;width:100%;margin-bottom:1rem;flex-wrap:wrap;}
+.rtab{background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);font-size:12px;font-weight:700;padding:5px 12px;border-radius:50px;cursor:pointer;}
+.rtab.act{background:rgba(255,223,0,0.15);border-color:#FFDF00;color:#FFDF00;}
+.rank-table{width:100%;border-collapse:collapse;}
+.rank-table th{font-size:11px;color:rgba(255,255,255,0.4);font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;}
+.rank-table td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:#fff;font-weight:700;}
+.rank-table tr:first-child td{color:#FFDF00;}
+.rank-table tr:nth-child(2) td{color:#C0C0C0;}
+.rank-table tr:nth-child(3) td{color:#cd7f32;}
+.medal{font-size:16px;}
+.no-scores{color:rgba(255,255,255,0.35);font-size:14px;text-align:center;padding:2rem 0;}
+.btn-back{background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;padding:9px 0;border-radius:50px;cursor:pointer;margin-top:1rem;width:100%;}
+</style>
+
+<div id="R">
+
+<div id="s-entry" class="sc on">
+  <div class="logo">⚽ QUIZ<br>FUTEBOL</div>
+  <div class="logo-sub">Responda ou seja moggado pelo Menino Ney</div>
+  <div class="name-box">
+    <label>Seu nome</label>
+    <input id="inp-name" type="text" placeholder="Digite seu nome..." maxlength="20" oninput="chkName()">
+  </div>
+  <div class="quiz-grid">
+    <div class="qcard" onclick="selCat('brasil')" id="qc-brasil"><span class="qi">🇧🇷</span><span class="qn">Seleção Brasileira</span></div>
+    <div class="qcard" onclick="selCat('neymar')" id="qc-neymar"><span class="qi">👦</span><span class="qn">Neymar Jr.</span></div>
+    <div class="qcard" onclick="selCat('latina')" id="qc-latina"><span class="qi">🌎</span><span class="qn">Seleções Latinas</span></div>
+    <div class="qcard" onclick="selCat('copa')" id="qc-copa"><span class="qi">🏆</span><span class="qn">Copas do Mundo</span></div>
+  </div>
+  <button class="btn-go" id="btn-go" disabled onclick="startGame()">JOGAR AGORA</button>
+  <button class="btn-rank" onclick="showRank()">🏅 Ver Placar</button>
+</div>
+
+<div id="s-q" class="sc">
+  <div class="hud">
+    <div class="hud-l">
+      <div class="pill" id="h-pts">0 pts</div>
+      <div class="pill" id="h-cat">🇧🇷</div>
+    </div>
+    <div class="lives-d" id="h-lives">❤️❤️❤️</div>
+  </div>
+  <div class="prog"><div class="prog-f" id="prog-f"></div></div>
+  <div class="qnum" id="qnum">PERGUNTA 1 / 20</div>
+  <div class="qtxt" id="qtxt"></div>
+  <div class="opts" id="qopts"></div>
+  <div class="fb" id="qfb"></div>
+  <button class="btn-quit" onclick="desistir()">🏳️ Desistir (vai ser moggado)</button>
+</div>
+
+<div id="s-mog" class="sc">
+  <div class="mog-face">😭</div>
+  <div class="mog-t" id="mog-titulo">VOCÊ FOI<br>MOGGADO!</div>
+  <div class="mog-s" id="mog-sub">pelo Menino Ney 👦⚽</div>
+  <div class="mog-ans" id="mog-ans"></div>
+  <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:12px;text-align:center;" id="mog-score"></div>
+  <button class="btn-r" onclick="startGame()">TENTAR DE NOVO</button>
+  <button class="btn-m" style="margin-top:8px;" onclick="goEntry()">TROCAR QUIZ</button>
+  <button class="btn-m" style="margin-top:6px;" onclick="showRank()">VER PLACAR</button>
+</div>
+
+<div id="s-win" class="sc">
+  <div class="win-ico">🏆</div>
+  <div class="win-t">CAMPEÃO!</div>
+  <div class="win-s" id="win-msg"></div>
+  <div class="win-stats">
+    <div class="wstat"><div class="wv" id="ws-pts">0</div><div class="wl">Pontos</div></div>
+    <div class="wstat"><div class="wv" id="ws-acc">0%</div><div class="wl">Acertos</div></div>
+    <div class="wstat"><div class="wv" id="ws-lives">0</div><div class="wl">Vidas</div></div>
+    <div class="wstat"><div class="wv" id="ws-best">—</div><div class="wl">Seu Record</div></div>
+  </div>
+  <button class="btn-w" onclick="startGame()">JOGAR NOVAMENTE</button>
+  <button class="btn-wm" style="margin-top:8px;" onclick="goEntry()">TROCAR QUIZ</button>
+  <button class="btn-wm" style="margin-top:6px;" onclick="showRank()">VER PLACAR GERAL</button>
+</div>
+
+<div id="s-rank" class="sc">
+  <div class="rank-t">🏅 Placar</div>
+  <div class="rank-sub">Top jogadores de todos os quizes</div>
+  <div class="rank-tabs">
+    <div class="rtab act" onclick="filterRank('all',this)">Todos</div>
+    <div class="rtab" onclick="filterRank('brasil',this)">🇧🇷 Brasil</div>
+    <div class="rtab" onclick="filterRank('neymar',this)">👦 Neymar</div>
+    <div class="rtab" onclick="filterRank('latina',this)">🌎 Latinas</div>
+    <div class="rtab" onclick="filterRank('copa',this)">🏆 Copas</div>
+  </div>
+  <div id="rank-body" style="width:100%;overflow-x:auto;"></div>
+  <button class="btn-back" onclick="goEntry()">← Voltar</button>
+</div>
+
+</div>
+
+<script>
+const DB={
+brasil:[
+  {q:"Quantas vezes o Brasil ganhou a Copa do Mundo?",opts:["4","5","6","3"],a:1},
+  {q:"Em qual ano foi o primeiro título mundial do Brasil?",opts:["1950","1962","1958","1954"],a:2},
+  {q:"Qual jogador é o maior artilheiro da Seleção Brasileira?",opts:["Ronaldo R9","Pelé","Neymar","Romário"],a:2},
+  {q:"Qual camisa Pelé usava na Copa de 1970?",opts:["9","11","10","7"],a:2},
+  {q:"O Brasil sediou a Copa do Mundo em qual ano?",opts:["2010","2018","2014","2006"],a:2},
+  {q:"Qual foi o placar da derrota para a Alemanha na semifinal de 2014?",opts:["6x1","7x1","5x0","4x1"],a:1},
+  {q:"Contra quem o Brasil jogou a final da Copa de 1994?",opts:["Argentina","Alemanha","Itália","França"],a:2},
+  {q:"Quem é o 'Fenômeno' do futebol brasileiro?",opts:["Ronaldinho","Zidane","Ronaldo R9","Adriano"],a:2},
+  {q:"Em qual Copa o Brasil ganhou com Garrincha?",opts:["1954","1962","1966","1970"],a:1},
+  {q:"Qual técnico comandou o Brasil no penta em 2002?",opts:["Zagallo","Parreira","Felipão","Tite"],a:2},
+  {q:"Qual estádio é o símbolo do futebol brasileiro?",opts:["Morumbi","Arena Corinthians","Maracanã","Mineirão"],a:2},
+  {q:"O Brasil foi eliminado na fase de grupos em qual Copa?",opts:["1990","1966","2010","1982"],a:1},
+  {q:"Ronaldo marcou quantos gols na Copa de 2002?",opts:["6","8","7","5"],a:1},
+  {q:"Quem marcou o gol do penta na final de 2002?",opts:["Rivaldo","Ronaldo","Ronaldinho","R. Carlos"],a:1},
+  {q:"Qual o apelido da camisa amarela do Brasil?",opts:["Guerreiros","Canarinho","Verde-amarela","Esquadrão"],a:1},
+  {q:"O Brasil perdeu a Copa de 1950 para qual país no Maracanã?",opts:["Argentina","Alemanha","Uruguai","Inglaterra"],a:2},
+  {q:"Qual jogador ficou famoso pela 'pedalada'?",opts:["Zico","Pelé","Ronaldinho Gaúcho","Rivaldo"],a:2},
+  {q:"Quantas Copas o Brasil disputou sem ganhar seguidas (1974-1994)?",opts:["3","4","5","2"],a:1},
+  {q:"Em qual Copa o Brasil ganhou pela última vez até hoje?",opts:["1998","2006","2002","2010"],a:2},
+  {q:"Qual técnico dirigiu o Brasil na Copa de 1994?",opts:["Zagallo","Parreira","Felipão","Tite"],a:1}
+],
+neymar:[
+  {q:"Em qual cidade Neymar nasceu?",opts:["Santos","São Paulo","Mogi das Cruzes","Campinas"],a:2},
+  {q:"Neymar iniciou sua carreira profissional em qual clube?",opts:["Corinthians","Grêmio","Santos","Palmeiras"],a:2},
+  {q:"Por quanto Neymar foi ao PSG em 2017?",opts:["150 mi €","200 mi €","222 mi €","180 mi €"],a:2},
+  {q:"Qual número Neymar usava habitualmente no Barcelona?",opts:["10","9","11","7"],a:2},
+  {q:"Em qual Copa Neymar sofreu uma lesão grave na coluna?",opts:["2010","2018","2014","2022"],a:2},
+  {q:"Neymar foi campeão da Champions League com qual clube?",opts:["PSG","Santos","Barcelona","Al-Hilal"],a:2},
+  {q:"Qual é o nome completo de Neymar?",opts:["Neymar Júnior Silva","Neymar da Silva Santos Júnior","Neymar José Santos","Neymar da Costa Jr"],a:1},
+  {q:"Em qual ano Neymar foi para o Barcelona?",opts:["2011","2013","2012","2014"],a:1},
+  {q:"Neymar disputou quantas Copas do Mundo?",opts:["2","4","3","1"],a:2},
+  {q:"Qual é o maior número de gols de Neymar em uma Copa do Mundo?",opts:["3","5","4","6"],a:1},
+  {q:"Neymar foi convocado para qual olimpíada pelo Brasil?",opts:["Londres 2012","Tóquio 2020","Rio 2016","Pequim 2008"],a:2},
+  {q:"Qual clube da Arábia Saudita Neymar assinou em 2023?",opts:["Al-Nassr","Al-Ittihad","Al-Hilal","Al-Ahli"],a:2},
+  {q:"Neymar ganhou a Copa do Mundo Sub-20 em qual ano?",opts:["2009","2011","2013","2007"],a:1},
+  {q:"Com quantos anos Neymar estreou pelo Santos?",opts:["15","17","16","18"],a:2},
+  {q:"Neymar marcou gol em sua estreia pela Seleção Brasileira?",opts:["Sim, 2 gols","Não","Sim, 1 gol","Sim, 3 gols"],a:2},
+  {q:"Qual prêmio individual Neymar ganhou no Mundial de Clubes de 2015?",opts:["Bola de Ouro","Chuteira de Ouro","Bola de Bronze","MVP"],a:0},
+  {q:"Em qual Copa Neymar foi artilheiro e melhor jogador do Brasil?",opts:["2010","2018","2022","2014"],a:3},
+  {q:"Neymar jogou pela Seleção Sub-17 em qual Copa do Mundo?",opts:["2007","2009","2011","2005"],a:0},
+  {q:"Neymar foi eleito melhor jogador da America do Sul em qual ano?",opts:["2010","2012","2011","2009"],a:2},
+  {q:"Qual seleção Neymar enfrentou na final dos Jogos Olímpicos de 2016?",opts:["Argentina","Nigéria","Alemanha","Honduras"],a:2}
+],
+latina:[
+  {q:"Quantas Copas do Mundo a Argentina conquistou?",opts:["2","4","3","5"],a:2},
+  {q:"Quem é o maior artilheiro da seleção argentina?",opts:["Maradona","Batistuta","Messi","Crespo"],a:2},
+  {q:"Qual país latino ganhou a Copa de 1930, a primeira da história?",opts:["Brasil","Argentina","Uruguai","Chile"],a:2},
+  {q:"Em qual Copa Maradona marcou o famoso 'Gol do Século'?",opts:["1982","1990","1986","1978"],a:2},
+  {q:"Qual seleção venceu a Copa América mais vezes?",opts:["Brasil","Argentina","Uruguai","Chile"],a:0},
+  {q:"O México já chegou a qual fase em Copas do Mundo várias vezes?",opts:["Final","Semi","Quartas","Oitavas"],a:3},
+  {q:"Qual jogador colombiano ficou famoso pelo gol contra em 1994?",opts:["Valderrama","Higuita","Escobar","Asprilla"],a:2},
+  {q:"A Argentina ganhou a Copa de 2022 contra qual país na final?",opts:["Croácia","Brasil","França","Marrocos"],a:2},
+  {q:"Qual seleção foi a primeira campeã mundial?",opts:["Brasil","Argentina","Uruguai","França"],a:2},
+  {q:"Em qual país aconteceu a Copa América de 2021?",opts:["Argentina","Chile","Brasil","Peru"],a:2},
+  {q:"Quem é conhecido como 'El Pibe de Oro'?",opts:["Messi","Maradona","Ronaldo","Zidane"],a:1},
+  {q:"Qual seleção latina chegou à semifinal da Copa de 2022?",opts:["Equador","México","Argentina","Colômbia"],a:2},
+  {q:"Qual seleção bateu a Alemanha por 1x0 na Copa de 2010?",opts:["Argentina","Brasil","Espanha","Sérvia"],a:2},
+  {q:"Qual jogador é ídolo máximo do Uruguai?",opts:["Cavani","Suárez","Forlán","Recoba"],a:1},
+  {q:"O Equador já se classificou para quantas Copas do Mundo?",opts:["2","4","3","5"],a:1},
+  {q:"Qual técnico argentino foi campeão mundial em 1978?",opts:["Bilardo","Menotti","Sabella","Basile"],a:1},
+  {q:"Qual país latino nunca se classificou para uma Copa do Mundo?",opts:["Bolívia","Venezuela","El Salvador","Todos já foram"],a:1},
+  {q:"Em qual Copa a Colombia fez sua melhor campanha (quartas)?",opts:["2010","2018","2014","2022"],a:2},
+  {q:"Quem marcou o gol do título da Argentina em 2022?",opts:["Messi","Mbappé","Di María","Gonzalo"],a:0},
+  {q:"Em qual Copa o Chile foi campeão mundial?",opts:["Nunca foi","1962","1950","1966"],a:0}
+],
+copa:[
+  {q:"Qual país sediou a primeira Copa do Mundo em 1930?",opts:["Brasil","Argentina","Uruguai","Chile"],a:2},
+  {q:"Qual país ganhou mais Copas do Mundo?",opts:["Alemanha","Itália","Brasil","Argentina"],a:2},
+  {q:"Em qual Copa a Alemanha goleou o Brasil por 7x1?",opts:["2010","2018","2014","2006"],a:2},
+  {q:"Qual foi o artilheiro da Copa de 2022 no Qatar?",opts:["Messi","Mbappé","Benzema","Neymar"],a:1},
+  {q:"Quantos países participam de uma Copa do Mundo atualmente?",opts:["24","36","32","48"],a:2},
+  {q:"Qual seleção ganhou a Copa de 1966 na Inglaterra?",opts:["Alemanha","Brasil","Inglaterra","Itália"],a:2},
+  {q:"Ronaldo R9 marcou quantos gols em Copas no total?",opts:["12","16","15","10"],a:2},
+  {q:"Qual Copa foi a primeira transmitida pela TV?",opts:["1950","1958","1954","1962"],a:2},
+  {q:"Qual país foi eliminado de uma Copa por ser dono de bola em 1930?",opts:["França","Romênia","Argentina","EUA"],a:0},
+  {q:"Qual foi o primeiro jogador expulso em uma final de Copa?",opts:["Zidane","Maradona","Rattin","Ronaldo"],a:0},
+  {q:"Em qual país a Copa de 2026 será sediada?",opts:["EUA","Canadá","México","Nos três"],a:3},
+  {q:"Qual seleção africana chegou às semifinais da Copa de 2002?",opts:["Senegal","Camarões","Coreia","Gana"],a:0},
+  {q:"Qual jogador marcou gol em 3 finais de Copa do Mundo?",opts:["Pelé","Vavá","Müller","Hurst"],a:1},
+  {q:"Qual Copa teve o maior público da história?",opts:["1970","1994","1950","1998"],a:2},
+  {q:"Qual é o estádio com maior capacidade já usado em uma Copa?",opts:["Wembley","Maracanã","Azteca","Camp Nou"],a:2},
+  {q:"Quem foi artilheiro da Copa de 1970?",opts:["Pelé","Gerd Müller","Jairzinho","Beckenbauer"],a:1},
+  {q:"Qual Copa foi cancelada por causa da Segunda Guerra Mundial?",opts:["1942 e 1946","1940 e 1944","1938 e 1942","1944 e 1948"],a:0},
+  {q:"Qual goleiro ficou famoso por parar pênaltis em 2006?",opts:["Buffon","Gigi Buffon","Jens Lehmann","Casillas"],a:2},
+  {q:"Em qual Copa a seleção da Coreia do Norte eliminou a Itália?",opts:["1970","1978","1966","1974"],a:2},
+  {q:"Qual seleção europeia venceu a Copa de 2010 na África do Sul?",opts:["Itália","Alemanha","Espanha","França"],a:2}
+]
+};
+
+const CAT_LABELS={brasil:"🇧🇷 Brasil",neymar:"👦 Neymar",latina:"🌎 Latinas",copa:"🏆 Copas"};
+let playerName="",selCatId="",questions=[],curQ=0,score=0,lives=3,correct=0,answered=false;
+let scores=[];
+try{scores=JSON.parse(localStorage.getItem('fqscores')||'[]');}catch(e){scores=[];}
+function saveScores(){try{localStorage.setItem('fqscores',JSON.stringify(scores));}catch(e){}}
+
+function chkName(){
+  const v=document.getElementById('inp-name').value.trim();
+  document.getElementById('btn-go').disabled=!(v.length>0&&selCatId);
+}
+function selCat(c){
+  selCatId=c;
+  document.querySelectorAll('.qcard').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('qc-'+c).classList.add('sel');
+  chkName();
+}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function show(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+
+function startGame(){
+  playerName=document.getElementById('inp-name').value.trim()||playerName||"Jogador";
+  questions=shuffle(DB[selCatId]).slice(0,20);
+  curQ=0;score=0;lives=3;correct=0;answered=false;
+  document.getElementById('h-cat').textContent=CAT_LABELS[selCatId];
+  show('s-q');renderQ();
+}
+function goEntry(){show('s-entry');}
+
+function desistir(){
+  saveResult(false);
+  document.getElementById('mog-titulo').innerHTML='COVARDE!<br>MOGGADO!';
+  document.getElementById('mog-sub').textContent='Você desistiu. O Menino Ney tá te julgando. 👦⚽';
+  document.getElementById('mog-ans').textContent='Você estava na pergunta '+( curQ+1)+' com '+score+' pts. Vergonha!';
+  document.getElementById('mog-score').textContent=playerName+' desistiu com '+correct+' acerto(s).';
+  show('s-mog');
+}
+
+function renderQ(){
+  answered=false;
+  const q=questions[curQ];
+  document.getElementById('qnum').textContent=`PERGUNTA ${curQ+1} / ${questions.length}`;
+  document.getElementById('qtxt').textContent=q.q;
+  document.getElementById('h-pts').textContent=score+' pts';
+  document.getElementById('h-lives').textContent=['❤️','❤️','❤️'].map((_,i)=>i<lives?'❤️':'🖤').join('');
+  document.getElementById('prog-f').style.width=(curQ/questions.length*100)+'%';
+  document.getElementById('qfb').textContent='';
+  document.getElementById('qfb').className='fb';
+  const c=document.getElementById('qopts');c.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='ob';b.textContent=o;
+    b.onclick=()=>answer(i);c.appendChild(b);
+  });
+}
+
+function answer(idx){
+  if(answered)return;answered=true;
+  const q=questions[curQ];
+  document.querySelectorAll('.ob').forEach(b=>b.disabled=true);
+  if(idx===q.a){
+    document.querySelectorAll('.ob')[idx].classList.add('ok');
+    score+=100;correct++;
+    document.getElementById('h-pts').textContent=score+' pts';
+    document.getElementById('qfb').textContent='✅ Correto! +100 pts';
+    document.getElementById('qfb').className='fb ok';
+    setTimeout(nextQ,1100);
+  } else {
+    document.querySelectorAll('.ob')[idx].classList.add('no');
+    document.querySelectorAll('.ob')[q.a].classList.add('ok');
+    lives--;
+    document.getElementById('h-lives').textContent=['❤️','❤️','❤️'].map((_,i)=>i<lives?'❤️':'🖤').join('');
+    document.getElementById('qfb').textContent='❌ Errou!';
+    document.getElementById('qfb').className='fb no';
+    if(lives<=0){
+      setTimeout(()=>{
+        document.getElementById('mog-titulo').innerHTML='VOCÊ FOI<br>MOGGADO!';
+        document.getElementById('mog-sub').textContent='pelo Menino Ney 👦⚽';
+        document.getElementById('mog-ans').textContent='Resposta certa: "'+q.opts[q.a]+'"';
+        document.getElementById('mog-score').textContent=playerName+' terminou com '+score+' pts ('+correct+'/'+curQ+' acertos)';
+        saveResult(false);show('s-mog');
+      },1200);
+    } else {setTimeout(nextQ,1200);}
+  }
+}
+
+function nextQ(){
+  curQ++;
+  if(curQ>=questions.length){saveResult(true);showWin();}
+  else{renderQ();}
+}
+
+function saveResult(won){
+  scores.push({name:playerName,cat:selCatId,score,correct,total:questions.length,won,date:Date.now()});
+  scores.sort((a,b)=>b.score-a.score);
+  if(scores.length>100)scores=scores.slice(0,100);
+  saveScores();
+}
+
+function showWin(){
+  document.getElementById('win-msg').textContent=playerName+', você zerou o quiz!';
+  document.getElementById('ws-pts').textContent=score;
+  document.getElementById('ws-acc').textContent=Math.round(correct/questions.length*100)+'%';
+  document.getElementById('ws-lives').textContent=lives;
+  const personal=scores.filter(s=>s.name===playerName&&s.cat===selCatId);
+  const best=personal.length>0?Math.max(...personal.map(s=>s.score)):score;
+  document.getElementById('ws-best').textContent=best;
+  show('s-win');
+}
+
+function showRank(){
+  renderRankTable('all');
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('act'));
+  document.querySelector('.rtab').classList.add('act');
+  show('s-rank');
+}
+
+function filterRank(cat,el){
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('act'));
+  el.classList.add('act');
+  renderRankTable(cat);
+}
+
+function renderRankTable(cat){
+  const body=document.getElementById('rank-body');
+  let data=cat==='all'?scores:scores.filter(s=>s.cat===cat);
+  if(data.length===0){body.innerHTML='<div class="no-scores">Nenhuma pontuação ainda nesta categoria</div>';return;}
+  const medals=['🥇','🥈','🥉'];
+  let html='<table class="rank-table" style="width:100%;table-layout:fixed;"><thead><tr><th style="width:32px;">#</th><th>Nome</th><th style="width:56px;text-align:center;">Cat</th><th style="width:64px;text-align:right;">Pts</th><th style="width:56px;text-align:right;">Acc</th></tr></thead><tbody>';
+  data.slice(0,20).forEach((s,i)=>{
+    const med=i<3?`<span class="medal">${medals[i]}</span>`:`<span style="color:rgba(255,255,255,0.35);font-size:13px;">${i+1}</span>`;
+    const acc=Math.round(s.correct/s.total*100)+'%';
+    const cIcon={brasil:'🇧🇷',neymar:'👦',latina:'🌎',copa:'🏆'}[s.cat]||'';
+    html+=`<tr><td>${med}</td><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name}</td><td style="text-align:center;font-size:16px;">${cIcon}</td><td style="text-align:right;">${s.score}</td><td style="text-align:right;color:rgba(255,255,255,0.55);font-weight:400;">${acc}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  body.innerHTML=html;
+}
+</script>
